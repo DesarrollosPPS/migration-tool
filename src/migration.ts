@@ -3,6 +3,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 
 export const DEFAULT_MIGRATIONS_DIR = "migrations";
+export const DATABASE_FOLDER = "database";
 
 const MIGRATION_FILE_PATTERN = /^(\d{14})_([a-z0-9_]+)\.sql$/i;
 
@@ -21,7 +22,13 @@ export function parseMigrationName(name: string): { timestamp: number; descripti
 }
 
 export function resolveMigrationsDir(dir?: string): string {
-  return dir ? path.resolve(dir) : path.resolve(process.cwd(), DEFAULT_MIGRATIONS_DIR);
+  if (dir) return path.resolve(dir);
+  const cwd = process.cwd();
+  const databaseMigrations = path.resolve(cwd, DATABASE_FOLDER, DEFAULT_MIGRATIONS_DIR);
+  if (existsSync(databaseMigrations)) return databaseMigrations;
+  const legacyMigrations = path.resolve(cwd, DEFAULT_MIGRATIONS_DIR);
+  if (existsSync(legacyMigrations)) return legacyMigrations;
+  return databaseMigrations;
 }
 
 export function formatTimestamp(date: Date): string {

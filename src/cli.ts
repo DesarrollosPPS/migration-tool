@@ -14,7 +14,7 @@ Commands:
   create <name>        Create a new timestamped migration file
 
 Options:
-  --dir <path>   Migrations directory (default: ./migrations)
+  --dir <path>   Migrations directory (default: ./database/migrations)
   --to <prefix>  For "up": only apply migrations whose name starts with the prefix
   -h, --help     Show this help
 `;
