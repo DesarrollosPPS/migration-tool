@@ -1,5 +1,5 @@
 {
-  "name": "migration-tool",
+  "name": "dbtool",
   "version": "0.1.0",
   "description": "Basic Microsoft SQL Server migration tool tracking schema changes and data inserts",
   "license": "MIT",
@@ -15,6 +15,8 @@
   "scripts": {
     "build": "tsc",
     "typecheck": "tsc --noEmit",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm run typecheck && npm run build",
     "migrate": "node dist/cli.js",
     "smoke-test": "tsx scripts/smoke-test.ts"
   },
